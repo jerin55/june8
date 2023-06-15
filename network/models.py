@@ -455,3 +455,5 @@ class download(models.Model):
 class viewers(models.Model):
     post=models.ForeignKey(Post,related_name='viewed_post',on_delete=models.CASCADE)   
     user=models.ForeignKey(User,related_name='viewed_user',on_delete=models.CASCADE)
+
+

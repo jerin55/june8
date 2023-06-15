@@ -187,8 +187,8 @@
                                                
                                             </li>
 
-<!-- 
-                                            <li>
+
+                                            <!-- <li>
                                                 <a href=""  style="color:antiquewhite;">
                                                     <span class="material-symbols-outlined">
                                                         inactive_order
@@ -458,15 +458,15 @@
                                          Bookmarks </button>
                         </li>
                         {% endif %}
-                        <!-- <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation">
                           
                             <button class="nav-link" id="resources-tab" data-bs-toggle="tab"
                                 data-bs-target="#resources-tab-pane-topic" type="button" role="tab"
                                 aria-controls="resources-tab-pane" aria-selected="false"><span class="material-symbols-outlined">
                                     tag
-                                    </span>topics</button>
+                                    </span>Orders</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="resources-tab" data-bs-toggle="tab"
                                 data-bs-target="#resources-tab-pane-page" type="button" role="tab"
                                 aria-controls="resources-tab-pane" aria-selected="false"><span class="material-symbols-outlined">
@@ -1022,15 +1022,15 @@
                     </div>
                         <div class="tab-pane fade" id="resources-tab-pane-topic" role="tabpanel"
                         aria-labelledby="resources-tab" tabindex="0">
-                        {% for topic_foll in topic_foll %}
+                        {% for car in car %}
 
-                        {% if topic_foll.following_user.username == request.user.username %}
+                        {% if car.user.username == request.user.username %}
                       
 
                         <div class="suggestion-user" style="background-color: rgb(248, 247, 247);border-radius: 13px;">
                             <div>
-                                <a href="">
-                                    <div class="small-profilepic" style="background-image: url(/media/{{frd.to_user.profile_pic}})"></div>
+                                <a href="{% url 'product_detail' car.product.id car.product.creater.id  %}">
+                                    <div class="small-profilepic" style="background-image: url(/media/{{car.product.content_image}})"></div>
                                 </a>
                             </div>
                             <div class="user-details">
@@ -1038,7 +1038,17 @@
                                     <div id="user-name">
                                         
                                         <strong>
-                                            <a href="{% url 'topicpage' topic_foll.topic.id %}" style="text-decoration: none;color: black;">{{ topic_foll.topic.intrest_name  }}</a>
+                                            <a href="" style="text-decoration: none;color: black;"></a>
+                                           
+                                           
+                                        </strong>
+                                    </div>
+                                    <div id="user-name">
+                                        <strong>
+                                            <a href="" style="text-decoration: none;color: black;">{{ car.created_at }}</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <a href="" style="text-decoration: none;color: black;">Rs. {{ car.product.Product_Price }}</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <a href="" style="text-decoration: none;color: black;">{{ car.status }}</a>
+                                           
                                            
                                         </strong>
                                     </div>
@@ -1054,6 +1064,7 @@
 
                         {% endif %}
                         {% endfor %}
+
 
                     </div>
 

@@ -57,6 +57,14 @@ def counts2(value,value2):
 
 
 @register.filter
+def crt_accept(value,value2):
+
+    car = Cart.objects.filter(product__creater=value,status=value2)
+    
+    return len(car)
+
+
+@register.filter
 def views_count(post_id):
 
     post = Post.objects.get(id=post_id)

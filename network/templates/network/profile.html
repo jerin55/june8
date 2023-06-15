@@ -531,15 +531,15 @@
                                 </span> my giz items</button>
                         </li>
                        
-                        <!-- <li class="nav-item" role="presentation">
+                        <li class="nav-item" role="presentation">
                           
                             <button class="nav-link" id="resources-tab" data-bs-toggle="tab"
                                 data-bs-target="#resources-tab-pane-topic" type="button" role="tab"
                                 aria-controls="resources-tab-pane" aria-selected="false"><span class="material-symbols-outlined">
                                     tag
-                                    </span>topics</button>
+                                    </span>Orders</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="resources-tab" data-bs-toggle="tab"
                                 data-bs-target="#resources-tab-pane-page" type="button" role="tab"
                                 aria-controls="resources-tab-pane" aria-selected="false"><span class="material-symbols-outlined">
@@ -570,7 +570,7 @@
                             <button class="nav-link" id=" resources-tab" data-bs-toggle="tab"
                                 data-bs-target="#resources-tab-pane" type="button" role="tab"
                                 aria-controls="resources-tab-pane" aria-selected="false"><span
-                                    class="material-symbols-outlined">
+                                    class="material-symbols-outlined"> 
                                    
                                 </span> <i class='far fa-edit' style='font-size:20px'></i> &nbsp; Edit profile</button></a>
                         </li> -->
@@ -922,7 +922,7 @@
         {% endif %})</a>
 {% endif %}</a></div>
                                                                     {% endif %}
-                                                                        
+                                                                       
                                                                         <div class="views ml-auto" >
                                                                             <div class="svg-span" style="padding-top: 8px;">
                                                                                 
@@ -952,7 +952,7 @@
                                                                 {% if user.is_authenticated %}
                                                                     <div class="comment-div-data" style="display: none;">
                                                                         <div class="head-comment-input">
-                                                                            <div>
+                                                                                <div>
                                                                                 <a href="{% url 'profile' user.id %}">
                                                                                     <div class="small-profilepic" style="background-image: url(/media/{{user.profile_pic}})"></div>
                                                                                 </a>
@@ -1320,38 +1320,48 @@ DOWNLAOD HISTORY
                     </div>
                         <div class="tab-pane fade" id="resources-tab-pane-topic" role="tabpanel"
                         aria-labelledby="resources-tab" tabindex="0">
-                        {% for topic_foll in topic_foll %}
-
-                        {% if topic_foll.following_user.username == request.user.username %}
-                      
-
-                        <div class="suggestion-user" style="background-color: rgb(248, 247, 247);border-radius: 13px;">
-                            <div>
-                                <a href="">
-                                    <div class="small-profilepic" style="background-image: url(/media/{{frd.to_user.profile_pic}})"></div>
-                                </a>
-                            </div>
-                            <div class="user-details">
-                                <a style="text-decoration: none;color: black;">
-                                    <div id="user-name">
-                                        
-                                        <strong>
-                                            <a href="{% url 'topicpage' topic_foll.topic.id %}" style="text-decoration: none;color: black;">{{ topic_foll.topic.intrest_name  }}</a>
+                        {% for car in car %}
+                        {% if car.to_user.username == request.user.username %}
+                            <div class="suggestion-user" style="background-color: rgb(248, 247, 247);border-radius: 13px;">
+                                <div>
+                                    <a href="{% url 'product_detail' car.product.id car.product.creater.id  %}">
+                                        <div class="small-profilepic" style="background-image: url(/media/{{car.product.content_image}})"></div>
+                                    </a>
+                                </div>
+                                <div class="user-details">
+                                    <a style="text-decoration: none;color: black;">
+                                        <div id="user-name">
+                                            <strong>
+                                                <a href="" style="text-decoration: none;color: black;"></a>
+                                            </strong>
+                                        </div>
+                                        <div id="user-name">
+                                            <strong>
+                                                <a href="" style="text-decoration: none;color: black;">{{ car.created_at }}</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <a href="" style="text-decoration: none;color: black;">Rs. {{ car.product.Product_Price }}</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <a href="" style="text-decoration: none;color: black;">
+                                                    
+                                                    {{ car.status }} 
+                                                  by  &nbsp; :<a href="{% url 'profile' car.user.id %}">{{ car.user }}</a>
                                            
-                                        </strong>
-                                    </div>
-                                    <!-- <div class="grey">@{{pag.username}}</div> -->
-                                </a>
-                            </div>
-                            <!-- <div>
-                                
-                                <button class="btn btn-outline-success" type="button" onclick="follow_user(this,'{{pag.pagename}}','suggestion')">Follow</button>
-                            </div> -->
-                        </div>
-                        
+                                                </a>
+                                            </strong>
+                                        </div>
+                                        <div>
 
+                                          <!-- count with users -->
+                                            <!-- {{ car.status }} Count for {{ car.user }}:
+                                            {% for status_count in car_status_counts %}
+                                                {% if status_count.status == car.status and status_count.user == car.user %}
+                                                    {{ status_count.count }}
+                                                {% endif %}
+                                            {% endfor %} -->
+                                        </div>
+                                    </a>
+                                </div>
+                            </div><br>
                         {% endif %}
-                        {% endfor %}
+                    {% endfor %}
 
                     </div>
                     <div class="tab-pane fade" id="resources-tab-pane-page" role="tabpanel"
@@ -1364,7 +1374,6 @@ DOWNLAOD HISTORY
                             <div class="main-div-content container">
                                 
                            
-        
                                 <form action="{% url 'edit_pr' user.id %}" method="post" enctype="multipart/form-data">  
                                     {% csrf_token %}
                        
@@ -1402,7 +1411,7 @@ DOWNLAOD HISTORY
                                        <div class="form-group" >
                                          <label for="email">change mail</label>
                                          <input type="text" class="form-control" name="email" value="{{ profile.email }}" id="email" placeholder="">
-                                       </div >
+                                       </div>
                                          <div class="form-group">
                                            <div>
                                              <label class="" for="password"><span style="color: #6c757d;">password<span></label>
@@ -1439,11 +1448,6 @@ DOWNLAOD HISTORY
            
                                      </form>
         
-        
-        
-        
-        
-        
                             </div>
                         </div>
 
@@ -1454,25 +1458,7 @@ DOWNLAOD HISTORY
 
                 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
-
-
 
 
             <div class="col-lg-3 col-md-3 col-12">
@@ -1536,8 +1522,6 @@ DOWNLAOD HISTORY
                         <p id="detailsContent"></p>
                     </div>
                     
-                    
-
                     
                  </div>
             </div>

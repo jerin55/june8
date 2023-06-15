@@ -503,7 +503,7 @@ def login_view(request):
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request,username=username, password=password)
 
         # Check if authentication successful
         if user is not None:
@@ -690,6 +690,9 @@ def profile(request, username):
     else:  
         button_text = 'Follow'
 
+
+        
+
     user_followers = len(friend_request.objects.filter(to_user=username))
     user_following = len(friend_request.objects.filter(from_user=username))   
     intrests=intrest.objects.all().order_by("?")[:5]
@@ -708,44 +711,18 @@ def profile(request, username):
 
     page_joined = invite_request.objects.filter(from_user=request.user,status="Joined")
 
-    # for i in noti_notifi_count:
-    #     if i.to_user.id == request.user.id:
-    #         if i.type == "Page_Invitions_To_User":
-    #             notifi_count=notifi_count +1
+  
 
-    #         if i.type == "Page_Accept_User_Invitions":
-    #             notifi_count=notifi_count +1
+    car=Cart.objects.filter(product__creater=username,status="Accept")
 
-    #         if i.type == "User_Fllowing":
-    #             notifi_count=notifi_count +1
-                
-    #         if i.type == "Page_Post_Reviwes_Replay":
-    #             notifi_count=notifi_count +1 
+    car_status_counts = (
+        Cart.objects
+        .filter(product__creater=username)
+        .values('status')
+        .annotate(count=Count('status'))
+    )
 
-    #         if i.type == "User_Post_Reviwes":
-    #             notifi_count=notifi_count +1
-
-    #         if i.type == "User_Post_Reviwes_Replay":
-    #             notifi_count=notifi_count +1
-
-    #         if i.type == "Intrest_Post_Reviwes":
-    #             notifi_count=notifi_count +1
-                
-    #         if i.type == "Intrest_Post_Reviwes_Replay":
-    #             notifi_count=notifi_count +1
-
-    #         if i.type == "Intrest_level_2_Post_Reviwes":
-    #             notifi_count=notifi_count +1
-                
-    #         if i.type == "Intrest_level_2_Post_Reviwes_Replay":
-    #             notifi_count=notifi_count +1    
-
-    #     if i.type == "Page_New_Post":
-    #         for j in page_joined :
-
-    #             if i.pages == j.pages:
-    #                 notifi_count=notifi_count +1
-
+    
 
     categories = ["Article", "Book", "Case Study", "Education", "Interviews", "Market Research", "Observation", "Poem", "Survey", "Work & Business"]                
     context = {
@@ -762,7 +739,7 @@ def profile(request, username):
         'crt_count' : crt_count,
         "invc":inv.count(),  
         "post_count":post_count,
-         "choose":choose,
+        "choose":choose,
         'user_followers': user_followers,
         'user_following': user_following,
         "topic_foll":topic_foll,
@@ -772,10 +749,11 @@ def profile(request, username):
         "downloads":downloads,
         "notifi_count":notifi_count,
         'join':join,
-        'categories': categories
-        
-        
+        'categories': categories,
+        "car":car,
+        "car_status_counts": car_status_counts,  # Add car_status_counts to context
        
+        
     }
    
     return render(request,'network/profile.html',context)
@@ -837,16 +815,6 @@ def buyprofile(request, username):
     
 
 
-
-    
-    
-    
-
-
-
-
-
-
     to=request.user.id
     fr=username
 
@@ -866,11 +834,13 @@ def buyprofile(request, username):
         followings = friend_request.objects.filter(from_user=request.user).values_list('to_user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6] 
    
+
+
+    car=Cart.objects.filter(user=username,status="Accept")
     return render(request, 'buyprofile.html', {
         "username": user,
         "posts": posts,
         'button_text': button_text,
-       
         "rqst":rqst,
         "page": "profile",
         "suggestions": suggestions,      
@@ -880,7 +850,7 @@ def buyprofile(request, username):
         'crt_count' : crt_count,
         "invc":inv.count(),  
         "post_count":post_count,
-    "choose":choose,
+       "choose":choose,
         'user_followers': user_followers,
         'user_following': user_following,
         "topic_foll":topic_foll,
@@ -888,8 +858,9 @@ def buyprofile(request, username):
         "orders":orders,
         "book":book,
         "post_cnt":post_cnt,
-        "downloads":downloads
-       
+        "downloads":downloads,
+        "car":car
+,       
     })
 
 @csrf_exempt
@@ -1243,8 +1214,6 @@ def unfollow(request, username):
             return HttpResponse("Method must be 'PUT'")
     else:
         return HttpResponseRedirect(reverse('login'))
-
-
 
 
 
