@@ -610,7 +610,7 @@ def register2(request):
 
 
         
-        return redirect("index")
+        return redirect("intrest_page")
 
 @csrf_exempt
 @login_required(login_url='login')
@@ -2272,9 +2272,7 @@ def order_item(request, product_id,uid):
         else:
             ship=Orderz()
             ship.user=user
-            ship.Full_name = request.POST['fullname']
-            ship.Phone = request.POST['phone']
-            ship.House = request.POST['house']
+
             ship.Area = request.POST['area']
             ship.Landmark = request.POST['landmark']
             ship.Town = request.POST['town']
@@ -2889,7 +2887,7 @@ def search(request):
 
 @csrf_exempt
 def intrest_follow(request,pk):
-    followig_user=request.user
+    followig_user=request.user 
     topic=intrest.objects.get(id=pk)
     intr_follow=intrest_followers(following_user=followig_user,topic=topic)
     intr_follow.save()
@@ -3170,10 +3168,7 @@ def post_comment(request,pk):
         followings = friend_request.objects.filter(from_user=request.user).values_list('to_user', flat=True)
         suggestions = User.objects.exclude(pk__in=followings).exclude(username=request.user.username).order_by("?")[:6]
     
-  
-
-
-    
+      
     context = {
         'posts'  : post, 
         'comment':comment,
@@ -3286,7 +3281,6 @@ def sale_post_share(request,pk):
     
     context = {
         'post'  : post, 
-     
        
     }
 
@@ -3300,9 +3294,6 @@ def add_to_wish(requset,pk):
     wish=wishlist(usr=usr,post=post)
     wish.save()
     return redirect("index")
-
-
-
 
 
 
@@ -5213,8 +5204,6 @@ def user_Accept_userpage_notifiction(request,id,pk):
 
 
 
-
-
 def Delete_Notification_Invitations(request,id):
 
     inv = invite_request.objects.get(id=id)
@@ -5466,7 +5455,6 @@ def cart_request_delete(request,pk):
 
     crt_req.save()
 
-
     return redirect(messagess)
 
 
@@ -5479,3 +5467,8 @@ def cart_request_Accept(request,pk):
     crt_req.save()
 
     return redirect(messagess)
+
+
+def admin_user(request,pk):
+    users=User.objects.all()
+    return render(request,'admin_user.html')

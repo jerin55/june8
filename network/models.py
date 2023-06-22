@@ -283,6 +283,10 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.user.first_name
+
+
+    def __str__(self):
+        return self.user.first_name
     
 
 
@@ -340,11 +344,11 @@ class wishlist(models.Model):
 
 
 class intrest_followers(models.Model):
-    following_user=models.ForeignKey(User,related_name='intr',on_delete=models.CASCADE,blank=True,default=True)
+    following_user=models.ForeignKey(User,related_name='intr',on_delete=models.CASCADE,blank= True,default=True)
     topic=models.ForeignKey(intrest,on_delete=models.CASCADE,default=True,related_name='top',blank=True)
 
 class review(models.Model):
-    reviewz=models.CharField(max_length=255,blank=True,null=True)
+    reviewz=models.CharField(max_length=255,blank=True,null=True) 
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='reviewposst',default=True,blank=True,null=True)
     reviewer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviewer',default=True,blank=True,null=True)
     mail=models.EmailField(max_length=255,blank=True,null=True)
@@ -389,7 +393,9 @@ class invite_request(models.Model):
 class Notifications(models.Model):
     from_user=models.ForeignKey(User,related_name='fr_noti',on_delete=models.CASCADE,null=True,blank=True)
     to_user=models.ForeignKey(User,related_name='to_noti',on_delete=models.CASCADE,null=True,blank=True)
+
     pages=models.ForeignKey(page,related_name='pagz_noti',on_delete=models.CASCADE,null=True,blank=True)
+    
     post = models.ForeignKey(Post, on_delete=models.CASCADE,related_name='post_noti',null=True,blank=True)
 
     invite_request =models.ForeignKey(invite_request,on_delete=models.CASCADE,related_name='invite_request',null=True,blank=True)
@@ -415,7 +421,7 @@ class Notifications(models.Model):
         ('User_Accept_Page_Invitions','User_Accept_Page_Invitions'),
         ('User_Page_Join_Request','User_Page_Join_Request'),
         ('Page_Accept_User_Invitions','Page_Accept_User_Invitions'),
-        ('Page_New_Post','Page_New_Post'),
+        ('Page_New_Post','Page_New_Post'), 
  
 
         ('Intrest_Post_Reviwes','Intrest_Post_Reviwes'),
